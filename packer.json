@@ -1,6 +1,6 @@
 {
   "variables": {
-    "commit_sha": "{{env `COMMIT_SHA`}}",
+    "commit_sha": "{{env `GITHUB_SHA`}}",
     "hetzner_token": "{{env `HCLOUD_TOKEN`}}",
     "rclone_config": "{{env `RCLONE_CONFIG`}}",
     "username": "charlieegan3"
