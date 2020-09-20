@@ -18,7 +18,5 @@ make dev-machine.iso
 
 (set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
 
-touch dev-machine.iso
-
 rclone --config=rclone.conf \
 	copy dev-machine.iso dropbox:/Archive
