@@ -41,7 +41,7 @@ alacritty
 chromium
 
 # video for linux
-kernel-devel-5.6.6-300.fc32.x86_64 # needed to build the kernel module in the next package (install hook)
+kernel-devel # needed to build the kernel module in the next package (install hook)
 v4l2loopback-dkms # kernel module
 v4l2loopback # tools to manage module
 wf-recorder # records screen and writes to device
