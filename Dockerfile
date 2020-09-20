@@ -2,5 +2,5 @@ FROM fedora:32
 
 WORKDIR /build
 
-RUN dnf install --assumeyes livecd-tools
-RUN dnf install --assumeyes make 
+# needed to run the livecd creator command in the container using make
+RUN dnf install --assumeyes livecd-tools make

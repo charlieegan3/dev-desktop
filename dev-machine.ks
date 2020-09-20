@@ -12,7 +12,6 @@ lang en_GB
 
 # copr repos
 repo --name="copr:copr.fedorainfracloud.org:alebastr:sway-extras" --baseurl=https://download.copr.fedorainfracloud.org/results/alebastr/sway-extras/fedora-32-x86_64
-repo --name="copr:copr.fedorainfracloud.org:pschyska:alacritty" --baseurl=https://download.copr.fedorainfracloud.org/results/pschyska/alacritty/fedora-32-x86_64
 repo --name="copr:copr.fedorainfracloud.org:sentry:v4l2loopback" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/v4l2loopback/fedora-32-x86_64
 repo --name="copr:copr.fedorainfracloud.org:wef:swappy" --baseurl=https://download.copr.fedorainfracloud.org/results/wef/swappy/fedora-32-x86_64
 
@@ -35,7 +34,9 @@ mako # notifications
 ulauncher # popup launcher
 
 # terminal
-alacritty
+# https://github.com/alacritty/alacritty/issues/3429
+# repo --name="copr:copr.fedorainfracloud.org:pschyska:alacritty" --baseurl=https://download.copr.fedorainfracloud.org/results/pschyska/alacritty/fedora-32-x86_64
+# alacritty
 
 # work
 chromium
