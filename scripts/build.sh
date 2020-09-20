@@ -14,6 +14,7 @@ set -exo pipefail
 
 dnf install --assumeyes livecd-tools make git rclone
 
+cd /build
 make dev-machine.iso
 
 (set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
