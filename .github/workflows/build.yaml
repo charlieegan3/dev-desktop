@@ -10,6 +10,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Build Image
+    - name: Install Packer
       run: |
-        make docker
+        make install_packer
+    - name: Build Image
+      env:
+        HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+        RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+      run: |
+        make packer

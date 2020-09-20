@@ -3,7 +3,6 @@ ISO_FILE:=$(MACHINE_NAME).iso
 UPSTREAM_VERSION:=f33
 UPSTREAM_URL:=https://pagure.io/fedora-kickstarts/raw/$(UPSTREAM_VERSION)/f
 UPSTREAM_KS_FILES:=fedora-live-workstation.ks fedora-workstation-common.ks fedora-live-base.ks fedora-repo.ks fedora-repo-rawhide.ks
-DOCKER_TAG:=build-$(shell git rev-parse --short HEAD)
 
 # target to download the ks files from the fedora repo, forms the base for my build
 .PHONY: refresh_upstream_kickstarts
@@ -13,15 +12,22 @@ refresh_upstream_kickstarts:
 		curl --silent -L $(UPSTREAM_URL)/$$file >> $$file; \
 	done
 
+# builds the iso when in a fedora environment
 $(ISO_FILE):
 	livecd-creator --verbose \
 		--config=$(MACHINE_NAME).ks \
 		--fslabel=$(MACHINE_NAME)  \
 		--cache=/var/cache/live
 
-docker:
-	docker build -t $(DOCKER_TAG) .
-	container=$$(docker create --privileged $(DOCKER_TAG) make $(MACHINE_NAME).iso) && \
-		docker cp $(CURDIR)/. $$container:/build/. && \
-		docker start -a $$container && \
-		docker cp $$container:/build/$(ISO_FILE) $(CURDIR)/$(ISO_FILE)
+# runs the build on a VM
+packer:
+	packer validate packer.json
+	packer build packer.json || true
+	if [[ -f .packer_success ]]; then exit 0; else echo "packer failed" && exit 235; fi
+
+# installs packer for CD runner
+install_packer:
+	cd $$(mktemp -d)
+	curl -LO https://releases.hashicorp.com/packer/1.5.5/packer_1.5.5_linux_amd64.zip
+	unzip *.zip
+	sudo mv packer /usr/local/bin/packer

@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "commit_sha": "{{env `COMMIT_SHA`}}",
+    "hetzner_token": "{{env `HCLOUD_TOKEN`}}",
+    "rclone_config": "{{env `RCLONE_CONFIG`}}",
+    "username": "charlieegan3"
+  },
+  "builders": [
+    {
+      "type": "hcloud",
+      "server_name": "dev-desktop-{{user `commit_sha`}}",
+      "snapshot_name": "dev-desktop-{{user `commit_sha`}}",
+      "token": "{{ user `hetzner_token` }}",
+      "image": "fedora-32",
+      "location": "nbg1",
+      "server_type": "ccx31",
+      "ssh_username": "root"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["mkdir -p /build"]
+    },
+    {
+      "type": "file",
+      "source": "./",
+      "destination": "/build"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/build.sh",
+      "environment_vars": [
+	"RCLONE_CONFIG={{user `rclone_config`}}"
+      ]
+    },
+    {
+      "type": "shell-local",
+      "command": "bash -c 'touch .packer_success && exit 235'"
+    }
+  ]
+}
