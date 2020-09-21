@@ -16,5 +16,5 @@ cd /build
 
 (set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
 
-dnf install --assumeyes make
+dnf install --assumeyes make git # git is needed for a makefile var (SHA)
 make all

@@ -17,6 +17,11 @@ repo --name="copr:copr.fedorainfracloud.org:wef:swappy" --baseurl=https://downlo
 
 selinux --disabled
 
+
+# TODO 
+# skipx
+# timezone Europe/London
+
 %packages
 # basics
 htop

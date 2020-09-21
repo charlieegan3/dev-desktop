@@ -19,6 +19,7 @@ refresh_upstream_kickstarts:
 
 # builds the iso when in a fedora environment
 $(ISO_FILE):
+	echo Building $(ISO_FILE) # to show the name is set right before building
 	livecd-creator --verbose \
 		--config=$(MACHINE_NAME).ks \
 		--fslabel=$(MACHINE_NAME)  \
@@ -34,8 +35,7 @@ upload:
 install_build_deps:
 	# - livecd-tools in order to build the iso
 	# - rclone to upload the image
-	# - git get the sha for the makefile
-	dnf install --assumeyes livecd-tools git rclone
+	dnf install --assumeyes livecd-tools rclone
 
 # targets for GH actions, used to run on the remote instance
 # runs the build on a VM
