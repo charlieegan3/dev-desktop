@@ -29,7 +29,7 @@ $(ISO_FILE):
 .PHONY: upload
 upload:
 	rclone --config=rclone.conf \
-		copy $(ISO_FILE) dropbox:/Archive
+		copy ./$(ISO_FILE) dropbox:/Archive
 
 .PHONY: install_build_debs
 install_build_deps:

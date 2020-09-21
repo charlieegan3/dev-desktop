@@ -16,5 +16,8 @@ cd /build
 
 (set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
 
+# install deps to run make
 dnf install --assumeyes make git # git is needed for a makefile var (SHA)
+
+# make the image and push it
 make all
