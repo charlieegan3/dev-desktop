@@ -1,7 +1,8 @@
 SHELL := /bin/bash # bash syntax is used in packer target
 MACHINE_NAME:=dev-desktop
 SHA:=$(shell git rev-parse --short HEAD)
-ISO_FILE:=$(MACHINE_NAME)-$(SHA).iso
+FS_LABEL:=$(MACHINE_NAME)-$(SHA)
+ISO_FILE:=$(FS_LABEL).iso
 UPSTREAM_VERSION:=f33
 UPSTREAM_URL:=https://pagure.io/fedora-kickstarts/raw/$(UPSTREAM_VERSION)/f
 UPSTREAM_KS_FILES:=fedora-live-workstation.ks fedora-workstation-common.ks fedora-live-base.ks fedora-repo.ks fedora-repo-rawhide.ks
@@ -22,7 +23,7 @@ $(ISO_FILE):
 	echo Building $(ISO_FILE) # to show the name is set right before building
 	livecd-creator --verbose \
 		--config=$(MACHINE_NAME).ks \
-		--fslabel=$(MACHINE_NAME)  \
+		--fslabel=$(FS_LABEL)  \
 		--cache=/var/cache/live
 
 # upload the image to dropbox
