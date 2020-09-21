@@ -15,6 +15,8 @@ repo --name="copr:copr.fedorainfracloud.org:alebastr:sway-extras" --baseurl=http
 repo --name="copr:copr.fedorainfracloud.org:sentry:v4l2loopback" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/v4l2loopback/fedora-32-x86_64
 repo --name="copr:copr.fedorainfracloud.org:wef:swappy" --baseurl=https://download.copr.fedorainfracloud.org/results/wef/swappy/fedora-32-x86_64
 
+selinux --disabled
+
 %packages
 # basics
 htop
