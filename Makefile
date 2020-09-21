@@ -1,6 +1,7 @@
 SHELL := /bin/bash # bash syntax is used in packer target
 MACHINE_NAME:=dev-desktop
-ISO_FILE:=$(MACHINE_NAME).iso
+SHA:=$(shell git rev-parse --short HEAD)
+ISO_FILE:=$(MACHINE_NAME)-$(SHA).iso
 UPSTREAM_VERSION:=f33
 UPSTREAM_URL:=https://pagure.io/fedora-kickstarts/raw/$(UPSTREAM_VERSION)/f
 UPSTREAM_KS_FILES:=fedora-live-workstation.ks fedora-workstation-common.ks fedora-live-base.ks fedora-repo.ks fedora-repo-rawhide.ks
@@ -27,13 +28,13 @@ $(ISO_FILE):
 .PHONY: upload
 upload:
 	rclone --config=rclone.conf \
-		copy $(MACHINE_NAME).iso dropbox:/Archive
+		copy $(ISO_FILE) dropbox:/Archive
 
 .PHONY: install_build_debs
 install_build_deps:
 	# - livecd-tools in order to build the iso
 	# - rclone to upload the image
-	# - git get the sha for the makefile (not strictly required)
+	# - git get the sha for the makefile
 	dnf install --assumeyes livecd-tools git rclone
 
 # targets for GH actions, used to run on the remote instance
