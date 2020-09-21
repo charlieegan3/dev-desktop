@@ -19,8 +19,12 @@ refresh_upstream_kickstarts:
 
 # builds the iso when in a fedora environment
 $(ISO_FILE):
+	# livecd-creator --verbose \
+	#	--config=$(MACHINE_NAME).ks \
+	#	--fslabel=$(MACHINE_NAME)  \
+	#	--cache=/var/cache/live
 	livecd-creator --verbose \
-		--config=$(MACHINE_NAME).ks \
+		--config=fedora-live-workstation.ks \
 		--fslabel=$(MACHINE_NAME)  \
 		--cache=/var/cache/live
 
