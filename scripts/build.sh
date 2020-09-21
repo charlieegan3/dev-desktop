@@ -12,9 +12,9 @@ set -euo pipefail
 
 set -exo pipefail
 
-(set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
-
 cd /build
+
+(set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
 
 dnf install --assumeyes make
 make all
