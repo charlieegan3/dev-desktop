@@ -1,3 +1,4 @@
+SHELL := /bin/bash # bash syntax is used in packer target
 MACHINE_NAME:=dev-machine
 ISO_FILE:=$(MACHINE_NAME).iso
 UPSTREAM_VERSION:=f33
