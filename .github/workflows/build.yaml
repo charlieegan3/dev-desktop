@@ -10,9 +10,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install Packer
-      run: |
-        make install_packer
     - name: Build Image
       env:
         HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

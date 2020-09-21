@@ -1,10 +1,13 @@
 SHELL := /bin/bash # bash syntax is used in packer target
-MACHINE_NAME:=dev-machine
+MACHINE_NAME:=dev-desktop
 ISO_FILE:=$(MACHINE_NAME).iso
 UPSTREAM_VERSION:=f33
 UPSTREAM_URL:=https://pagure.io/fedora-kickstarts/raw/$(UPSTREAM_VERSION)/f
 UPSTREAM_KS_FILES:=fedora-live-workstation.ks fedora-workstation-common.ks fedora-live-base.ks fedora-repo.ks fedora-repo-rawhide.ks
 
+all: install_build_deps $(ISO_FILE) upload
+
+# targets for running on the build, local or on remote instance via build.sh
 # target to download the ks files from the fedora repo, forms the base for my build
 .PHONY: refresh_upstream_kickstarts
 refresh_upstream_kickstarts:
@@ -20,13 +23,29 @@ $(ISO_FILE):
 		--fslabel=$(MACHINE_NAME)  \
 		--cache=/var/cache/live
 
+# upload the image to dropbox
+.PHONY: upload
+upload:
+	rclone --config=rclone.conf \
+		copy $(MACHINE_NAME).iso dropbox:/Archive
+
+.PHONY: install_build_debs
+install_build_deps:
+	# - livecd-tools in order to build the iso
+	# - rclone to upload the image
+	# - git get the sha for the makefile (not strictly required)
+	dnf install --assumeyes livecd-tools git rclone
+
+# targets for GH actions, used to run on the remote instance
 # runs the build on a VM
-packer:
+.PHONY: packer
+packer: install_packer
 	packer validate packer.json
 	packer build packer.json || true
 	if [[ -f .packer_success ]]; then exit 0; else echo "packer failed" && exit 235; fi
 
 # installs packer for CD runner
+.PHONY: install_packer
 install_packer:
 	cd $$(mktemp -d)
 	curl -LO https://releases.hashicorp.com/packer/1.5.5/packer_1.5.5_linux_amd64.zip

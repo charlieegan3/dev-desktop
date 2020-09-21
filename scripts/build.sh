@@ -12,12 +12,9 @@ set -euo pipefail
 
 set -exo pipefail
 
-dnf install --assumeyes livecd-tools make git rclone
-
-cd /build
-make dev-machine.iso
-
 (set +x; echo "$RCLONE_CONFIG" | base64 -d > rclone.conf)
 
-rclone --config=rclone.conf \
-	copy dev-machine.iso dropbox:/Archive
+cd /build
+
+dnf install make
+make all
