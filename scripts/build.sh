@@ -16,5 +16,5 @@ set -exo pipefail
 
 cd /build
 
-dnf install make
+dnf install --assumeyes make
 make all
